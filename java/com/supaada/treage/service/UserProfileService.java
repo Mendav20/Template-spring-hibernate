@@ -2,14 +2,14 @@ package com.supaada.treage.service;
 
 import java.util.List;
 
-import com.supaada.treage.model.UserProfile;
+import com.supaada.treage.model.RolesUs;
 
 public interface UserProfileService {
 	
-	  UserProfile findById(int id);
+	  RolesUs findById(Integer id);
 	  
-	    UserProfile findByType(String type);
+	    RolesUs findByNombreRol(String NombreRol);
 	     
-	    List<UserProfile> findAll();
+	    List<RolesUs> findAll();
 
 }

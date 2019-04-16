@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.supaada.treage.model.UserProfile;
+import com.supaada.treage.model.RolesUs;
 import com.supaada.treage.service.UserProfileService;
 
 @Component
-public class RoleToUserProfileConverter implements Converter<Object, UserProfile>{
+public class RoleToUserProfileConverter implements Converter<Object, RolesUs>{
 	
 	static final Logger logger = LoggerFactory.getLogger(RoleToUserProfileConverter.class);
 	
@@ -18,9 +18,9 @@ public class RoleToUserProfileConverter implements Converter<Object, UserProfile
 	UserProfileService userProfileService;
 	
 	
-	public UserProfile convert(Object element) {
+	public RolesUs convert(Object element) {
 		Integer id = Integer.parseInt((String)element);
-		UserProfile profile = userProfileService.findById(id);
+		RolesUs profile = userProfileService.findById(id);
 		logger.info("Profile : {}",profile);
 		return profile;
 	}

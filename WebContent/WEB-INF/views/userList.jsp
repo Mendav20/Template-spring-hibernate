@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
+    
 <!DOCTYPE html>
 <html>
  
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Users List</title>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+   
+    <link href="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous'/>" rel="stylesheet"></link>
+    
 </head>
  
 <body>
@@ -19,11 +26,9 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
+                        <th>UserName</th>
                         <th>Email</th>
-                        <th>SSO ID</th>
-                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                        <sec:authorize access="hasRole('ADMIN') or hasRole('MASTER')">
                             <th width="100"></th>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ADMIN')">
@@ -35,24 +40,24 @@
                 <tbody>
                 <c:forEach items="${users}" var="user">
                     <tr>
-                        <td>${user.firstName}</td>
-                        <td>${user.lastName}</td>
-                        <td>${user.email}</td>
-                        <td>${user.ssoId}</td>
-                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                            <td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">edit</a></td>
+                        <td>${user.username}</td>
+                        <th>${user.email }</th>
+                        <sec:authorize access="hasRole('ADMIN') or hasRole('MASTER')">
+                            <td><a href="<c:url value='/edit-user-${user.idUsuario}' />" class="btn btn-success custom-width">Edit</a></td>
                         </sec:authorize>
-                        <sec:authorize access="hasRole('ADMIN')">
-                            <td><a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger custom-width">delete</a></td>
+                        <sec:authorize access="hasRole('ADMIN') or hasRole('MASTER')">
+                            <td><a href="<c:url value='/delete-user-${user.idUsuario}' />" class="btn btn-danger custom-width">Delete</a></td>
                         </sec:authorize>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
-        <sec:authorize access="hasRole('ADMIN')">
+        <sec:authorize access="hasRole('ADMIN') or hasRole('MASTER')">
             <div class="well">
-                <a href="<c:url value='/newuser' />">Add New User</a>
+            	
+                <a href="<c:url value='/newuser' />" <button type="button" class="btn btn-info" </button>>Add New User</a>
+                <a href="<c:url value='/report'/>" <button type="button" class="btn btn-success"</button>>Generar Reporte </a>
             </div>
         </sec:authorize>
     </div>

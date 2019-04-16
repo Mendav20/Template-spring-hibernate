@@ -37,12 +37,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http)throws Exception {
 		http.authorizeRequests().antMatchers("/")
-		.access("hasRole('USER') or hasRole ('ADMIN') or hasRole('BDA')")
-		.antMatchers("/newuser/**","/delete-user-*").access("hasRole('ADMIN')").antMatchers("/edit-user-*")
-		.access("hasRole('ADMIN') or hasRole('DBA')").and().formLogin().loginPage("/login")
-		.loginProcessingUrl("/login").usernameParameter("ssoId").passwordParameter("password").and()
-		.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-		.tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
+		.access("hasRole('USER') or hasRole ('ADMIN') or hasRole('MASTER')")
+			.antMatchers("/newuser/**","/delete-user-*").access("hasRole('ADMIN') or hasRole('MASTER')")
+			.antMatchers("/edit-user-*").access("hasRole('ADMIN') or hasRole('MASTER')")
+			.and().formLogin().loginPage("/login")
+			.loginProcessingUrl("/login")
+			.usernameParameter("username")
+			.passwordParameter("password")
+			.and()
+			.rememberMe().rememberMeParameter("remember-me")
+			.tokenRepository(tokenRepository)
+			.tokenValiditySeconds(86400)
+			.and().csrf()
+			.and().exceptionHandling().accessDeniedPage("/Access_Denied");
 		
 	}
 	

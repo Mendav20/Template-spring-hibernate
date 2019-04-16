@@ -7,18 +7,18 @@ import com.supaada.treage.model.User;
 
 public interface UserService {
 	
-	  User findById(int id);
+	  User findById(Integer idUsuario);
 	     
-	    User findBySSO(String ssoId);
+	    User findByNombre(String username);
 	     
 	    void saveUser(User user);
 	     
 	    void updateUser(User user);
 	     
-	    void deleteUserBySSO(String ssoId);
+	    void deleteUserByID(Integer idUsuario);
 	 
 	    List<User> findAllUsers(); 
 	     
-	    boolean isUserSSOUnique(Integer id, String ssoId);
+	    boolean isUserSSOUnique(Integer id, String username);
 
 }

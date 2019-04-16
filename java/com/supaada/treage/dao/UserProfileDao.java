@@ -2,14 +2,14 @@ package com.supaada.treage.dao;
 
 import java.util.List;
 
-import com.supaada.treage.model.UserProfile;
+import com.supaada.treage.model.RolesUs;
 
 public interface UserProfileDao {
 	
-	List<UserProfile> findAll();
+	List<RolesUs> findAll();
     
-    UserProfile findByType(String type);
+    RolesUs findByRol(String NombreRol);
      
-    UserProfile findById(int id);
+    RolesUs findById(int id);
 
 }

@@ -28,33 +28,33 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
 		persistentLogin.setUsername(token.getUsername());
 		persistentLogin.setSeries(token.getSeries());
 		persistentLogin.setToken(token.getTokenValue());
-		persistentLogin.setLast_used(token.getDate());
+		persistentLogin.setLastUsed(token.getDate());
 		persist(persistentLogin);
 		
 		
 	}
 
 	@Override
-	public void updateToken(String seriesId, String tokenValue, Date lastUsed) {
-		logger.info("Updating Token for seriesId : {}", seriesId);
-		PersistentLogin persistentLogin = getByKey(seriesId);
+	public void updateToken(String series, String tokenValue, Date lastUsed) {
+		logger.info("Updating Token for seriesId : {}", series);
+		PersistentLogin persistentLogin = getByKey(series);
 		persistentLogin.setToken(tokenValue);
-		persistentLogin.setLast_used(lastUsed);
+		persistentLogin.setLastUsed(lastUsed);
 		update(persistentLogin);
 		
 		
 	}
 
 	@Override
-	public PersistentRememberMeToken getTokenForSeries(String seriesId) {
-		logger.info("Fect TOken if any for seriesId : {}", seriesId);
+	public PersistentRememberMeToken getTokenForSeries(String series) {
+		logger.info("Fect TOken if any for seriesId : {}", series);
 		try {
 			Criteria crit = createEntityCriteria();
-			crit.add(Restrictions.eq("series", seriesId));
+			crit.add(Restrictions.eq("series", series));
 			PersistentLogin persistentLogin = (PersistentLogin) crit.uniqueResult();
 			
 			return new PersistentRememberMeToken(persistentLogin.getUsername(), persistentLogin.getSeries(),
-					persistentLogin.getToken(), persistentLogin.getLast_used());
+					persistentLogin.getToken(), persistentLogin.getLastUsed());
 			
 		} catch (Exception e) {
 			logger.info("Token not found...");

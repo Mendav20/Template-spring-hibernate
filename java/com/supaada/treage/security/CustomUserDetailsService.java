@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.supaada.treage.model.RolesUs;
 import com.supaada.treage.model.User;
-import com.supaada.treage.model.UserProfile;
 import com.supaada.treage.service.UserService;
 
 @Service("customUserDetailsService")
@@ -27,23 +27,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private UserService userService;
 	
 	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String ssoId)throws UsernameNotFoundException{
-		User user = userService.findBySSO(ssoId);
-		logger.info("User : {}",user);
+	public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException{
+		User user = userService.findByNombre(username);		
+		logger.info("username : {}",user);
 		if (user == null) {
 			logger.info("User not found");
 			throw new UsernameNotFoundException("Username not found");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getssoId(), user.getPassword(), 
+		return new org.springframework.security.core.userdetails.User (user.getUsername(), user.getPassword(), 
 				true, true, true, true, getGrantedAuthorities(user));			
 	}
 	
 	private List<GrantedAuthority> getGrantedAuthorities(User user){
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
-		for(UserProfile userProfile : user.getUserProfiles()) {
-			logger.info("UserProfile : {}", userProfile);
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + userProfile.getType()));	
+		for(RolesUs rol : user.getRolesUs()) {
+			logger.info("RolesUs : {}", rol);
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + rol.getNombreRol()));	
 		}
 		logger.info("authorities : {}", authorities);
 		return authorities;

@@ -5,9 +5,14 @@ import java.util.List;
 import com.supaada.treage.model.User;
 
 public interface UserDao {
-	User findById(int id);
-	User findBySSO(String sso);
+	
+	User findById(int idUsuario);
+	
+	User findByNombre(String username);
+	
 	void save(User user);
-	void deleteBySSO(String sso);
+	
+	void deleteByID(Integer Id);
+	
 	List<User>findAllUsers();
 }

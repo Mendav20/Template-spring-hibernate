@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.supaada.treage.dao.UserProfileDao;
-import com.supaada.treage.model.UserProfile;
+import com.supaada.treage.model.RolesUs;
 
 @Service("userProfileService")
 @Transactional
@@ -17,16 +17,15 @@ public class UserProfileServiceImpl implements UserProfileService {
 	 @Autowired
 	    UserProfileDao dao;
 	     
-	    public UserProfile findById(int id) {
-	        return dao.findById(id);
+	    public RolesUs findById(Integer idRol) {
+	        return dao.findById(idRol);
 	    }
 	 
-	    public UserProfile findByType(String type){
-	        return dao.findByType(type);
+	    public RolesUs findByNombreRol(String NombreRol){
+	        return dao.findByRol(NombreRol);
 	    }
 	 
-	    public List<UserProfile> findAll() {
+	    public List<RolesUs> findAll() {
 	        return dao.findAll();
 	    }
-
 }

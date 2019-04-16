@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page isELIgnored="false" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <title>Login page</title>
-        <link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
-        <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+        
+        
+    <link href="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous'/>" rel="stylesheet"></link>
+    
     </head>
  
     <body>
@@ -29,7 +34,7 @@
                             </c:if>
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="username"><i class="fa fa-user"></i></label>
-                                <input type="text" class="form-control" id="username" name="ssoId" placeholder="Enter Username" required>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
                             </div>
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label> 
@@ -44,7 +49,7 @@
                                  
                             <div class="form-actions">
                                 <input type="submit"
-                                    class="btn btn-block btn-primary btn-default" value="Log in">
+                                    class="btn btn-block btn-primary btn-default" value="Sign in">
                             </div>
                         </form>
                     </div>

@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,13 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.supaada.treage.model.RolesUs;
 import com.supaada.treage.model.User;
-import com.supaada.treage.model.UserProfile;
 import com.supaada.treage.service.UserProfileService;
 import com.supaada.treage.service.UserService;
 
 @Controller
-@RequestMapping("/")
 @SessionAttributes("roles")
 public class AppController {
 	
@@ -51,64 +49,78 @@ public class AppController {
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
 	
-	@RequestMapping(value = {"/","/list"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/list"}, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) {
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
-		return "userslist";
+		return "userList";
+	}
+	
+	@RequestMapping(value = {"/newuser"}, method = RequestMethod.GET)
+	public String newUser(ModelMap model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		model.addAttribute("edit", false);
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "registration";
 	}
 	
 	 @RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
 	    public String saveUser(@Valid User user, BindingResult result,
 	            ModelMap model) {
+		 
 	 
 	        if (result.hasErrors()) {
+	        	System.out.println("algo es incorrecto..");
+	        	System.out.println(result);
 	            return "registration";
 	        }
 	 
 	      
-	        if(!userService.isUserSSOUnique(user.getId(), user.getssoId())){
-	            FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getssoId()}, Locale.getDefault()));
+	        if(!userService.isUserSSOUnique(user.getIdUsuario(), user.getUsername())){
+	            FieldError ssoError =new FieldError("user","username",messageSource.getMessage("non.unique.username", new String[]{user.getUsername()}, Locale.getDefault()));
 	            result.addError(ssoError);
 	            return "registration";
 	        }
 	         
 	        userService.saveUser(user);
 	 
-	        model.addAttribute("success", "User " + user.getUsername() + " registered successfully");
+	        model.addAttribute("success", "user " + user.getUsername() + " registered successfully");
 	        model.addAttribute("loggedinuser", getPrincipal());
-	        //return "success";
 	        return "registrationsuccess";
 	    }
-	 @RequestMapping(value = {"/edit-user-{ssoId}"},method = RequestMethod.GET)
-	 public String editUser(@PathVariable String ssoId, ModelMap model) {
-		 User user = userService.findBySSO(ssoId);
+	 
+	 @RequestMapping(value = {"/edit-user-{idUsuario}"},method = RequestMethod.GET)
+	 public String editUser(@PathVariable int idUsuario, ModelMap model) {
+		 User user = userService.findById(idUsuario);
 		 model.addAttribute("user", user);
-		 model.addAttribute("edit",true);
+		 model.addAttribute("edit",true);		 
 		 model.addAttribute("loggedinuser", getPrincipal());
 		 return "registration";
 	 }
 	 
-	 @RequestMapping(value = {"/edit-user-{ssoId}"}, method = RequestMethod.POST)
-	 public String updaterUser(@Valid User user, BindingResult result, ModelMap model,@PathVariable String ssoId) {
-		 if(result.hasErrors()) {
+	 @RequestMapping(value = {"/edit-user-{idUsuario}"}, method = RequestMethod.POST)
+	 public String updaterUser(@Valid User user, BindingResult result, ModelMap model,@PathVariable int idUsuario) {
+		 
+		 if(result.hasErrors()) {			 
 			 return "registration";
 		 }
+		 System.out.println("algo salio mal..");
 		 userService.updateUser(user);
 		 model.addAttribute("success", "User" + user.getUsername() + "updated successfully");
 		 model.addAttribute("loggedinuser", getPrincipal());
 		 return "registrationsuccess";
 	 }
 	 
-	 @RequestMapping(value = {"/delete-user-{ssoId}"}, method = RequestMethod.GET)
-	 public String deleteUser(@PathVariable String ssoId) {
-		 userService.deleteUserBySSO(ssoId);
+	 @RequestMapping(value = {"/delete-user-{idUsuario}"}, method = RequestMethod.GET)
+	 public String deleteUser(@PathVariable Integer idUsuario) {
+		 userService.deleteUserByID(idUsuario);
 			 return "redirect:/list";
 	 }
 	 
 	 @ModelAttribute("roles")
-	 public List<UserProfile>initializerProfiles(){
+	 public List<RolesUs>initializerProfiles(){
 		 return userProfileService.findAll();
 	 }
 	 
@@ -118,7 +130,7 @@ public class AppController {
 		 return "accesDenied";
 	 }
 	 
-	 @RequestMapping(value = "/login", method = RequestMethod.GET)
+	 @RequestMapping(value = {"/","/login"}, method = RequestMethod.GET)
 	 public String loginPage() {
 		 if(isCurrentAuthenticationAnonymous()) {
 			 return "login";

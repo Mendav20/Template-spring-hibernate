@@ -12,28 +12,28 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name = "PERSISTENT_LOGINS")
+@Table(name = "persistentlogin")
 public class PersistentLogin implements Serializable{
 	
 	@Id
-	private String series;
+	private String Series;
 	
-	@Column(name = "USERNAME", unique = true, nullable = false)
+	@Column(name = "Username", unique = true, nullable = false)
 	private String username;
 	
-	@Column(name = "TOKEN", unique = true, nullable = false)
+	@Column(name = "Token", unique = true, nullable = false)
 	private String token;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date last_used;
+	private Date lastUsed;
+	
 	
 	public String getSeries() {
-		return series;
+		return Series;
 	}
 	public void setSeries(String series) {
-		this.series=series;
+		Series = series;
 	}
-	
 	public String getUsername() {
 		return username;
 	}
@@ -47,12 +47,10 @@ public class PersistentLogin implements Serializable{
 	public void setToken(String token) {
 		this.token=token;
 	}
-	
-	public Date getLast_used(){
-		return last_used;
+	public Date getLastUsed() {
+		return lastUsed;
 	}
-	
-	public void setLast_used(Date last_used) {
-		this.last_used=last_used;
+	public void setLastUsed(Date lastUsed) {
+		this.lastUsed = lastUsed;
 	}
 }

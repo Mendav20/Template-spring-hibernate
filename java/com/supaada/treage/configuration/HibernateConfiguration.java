@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.*;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -37,7 +38,6 @@ public class HibernateConfiguration {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(env.getRequiredProperty("jdbc.driverClassName"));
-		System.out.println("a"+env.getRequiredProperty("jdbc.url"));
 		dataSource.setUrl(env.getRequiredProperty("jdbc.url"));
 		dataSource.setUsername(env.getRequiredProperty("jdbc.username"));
 		dataSource.setPassword(env.getRequiredProperty("jdbc.password"));

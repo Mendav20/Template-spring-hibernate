@@ -8,7 +8,7 @@
         <springframework.version>4.2.5.RELEASE</springframework.version>
         <springsecurity.version>4.0.4.RELEASE</springsecurity.version>
         <hibernate.version>5.4.2.Final</hibernate.version>
-        <mysql.connector.version>5.1.31</mysql.connector.version>
+       
     </properties>
  
     <dependencies>
@@ -55,6 +55,26 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${springsecurity.version}</version>
         </dependency>
+        
+        <dependency>
+			<groupId>net.sourceforge.dynamicreports</groupId>
+			<artifactId>dynamicreports-core</artifactId>
+			<version>6.0.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>core</artifactId>
+					<groupId>com.google.zxing</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
  
  
         <!-- Hibernate -->
@@ -107,14 +127,20 @@
             <version>1.2</version>
         </dependency>
 
-        
-        <dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+<dependency>
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
     <version>1.18.6</version>
     <scope>provided</scope>
 </dependency>
-        
+
+    	<dependency>
+    		<groupId>net.sf.jasperreports</groupId>
+    		<artifactId>jasperreports</artifactId>
+    		<version>6.8.0</version>
+    	</dependency>
+    	
     </dependencies>
   <build>
     <sourceDirectory>main</sourceDirectory>
